@@ -1,0 +1,88 @@
+/* Reset padrão para limpar margens do navegador */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fundo da tela inteira */
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Imagem com flores e borboletas apenas nas arestas/pontas */
+    background-image: url('assets/nova-imagem-fundo.png'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    background-color: #f3effa; /* Fundo reserva caso a imagem demore a carregar */
+}
+
+/* O Container do Convite (Onde a mágica acontece) */
+#container-convite {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* O JavaScript vai manipular este transform para ajustar a escala automaticamente */
+    transform: translate(-50%, -50%) scale(1); 
+    transform-origin: center center;
+    
+    /* Tamanho fixo proporcional a uma tela de smartphone */
+    width: 350px; 
+    height: 580px; 
+    perspective: 1000px; /* Dá profundidade para a animação */
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* Estilo do Envelope Fechado */
+#envelope {
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/envelope-fechado.png'); 
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 20; /* Fica na frente do convite */
+    transition: transform 1.2s ease-in-out, opacity 1s ease-in-out;
+}
+
+/* Estilo do Convite Interno (Texto com os dados da festa) */
+#convite-interno {
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/convite.png'); 
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10; /* Fica guardado atrás do envelope */
+    
+    /* Configuração inicial: escondido e encolhido */
+    opacity: 0; 
+    transform: scale(0.8); 
+    transition: all 1.2s ease-out;
+}
+
+/* --- CLASSES DE ANIMAÇÃO DISPARADAS PELO JAVASCRIPT --- */
+
+/* Faz o envelope encolher, subir e sumir */
+#envelope.abrir {
+    transform: scale(0.5) translateY(-150px);
+    opacity: 0;
+    pointer-events: none; /* Impede novos cliques após aberto */
+}
+
+/* Faz o convite crescer e aparecer suavemente assim que o envelope abre */
+#envelope.abrir + #convite-interno {
+    opacity: 1;
+    transform: scale(1);
+}
